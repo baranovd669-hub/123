@@ -2,17 +2,21 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Математика и Сюрприз</title>
+    <!-- Убрал запрет масштабирования, теперь можно щипать пальцами -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title></title>
     <style>
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden;
             font-family: 'Arial', sans-serif;
             background-color: #f0f8ff;
+            /* Разрешаем прокрутку, чтобы можно было двигать большую картинку */
+            overflow: auto;
+            /* Плавная прокрутка */
+            -webkit-overflow-scrolling: touch;
         }
 
         /* Контейнер с примером */
@@ -26,6 +30,9 @@
             transition: opacity 0.5s ease;
             padding: 20px;
             box-sizing: border-box;
+            position: fixed; /* Фиксируем, чтобы не мешало при появлении картинки */
+            top: 0;
+            left: 0;
         }
 
         h1 {
@@ -74,18 +81,18 @@
             text-align: center;
         }
 
-        /* --- ИСПРАВЛЕННЫЕ СТИЛИ ДЛЯ КАРТИНКИ --- */
+        /* --- СТИЛИ ДЛЯ МАСШТАБИРУЕМОЙ КАРТИНКИ --- */
         #surprise-image {
             display: none;
-            position: fixed;
-            top: 50%;             /* Центрируем по вертикали */
-            left: 50%;            /* Центрируем по горизонтали */
-            transform: translate(-50%, -50%); /* Точное центрирование */
-            max-width: 100vw;     /* Картинка не шире экрана */
-            max-height: 100vh;    /* Картинка не выше экрана */
-            width: auto;          /* Сохраняем пропорции */
-            height: auto;         /* Сохраняем пропорции */
-            object-fit: contain;  /* Вписываем картинку целиком */
+            /* Картинка отображается в своих натуральных размерах */
+            width: auto;
+            height: auto;
+            max-width: none;   /* Убираем ограничение по ширине */
+            max-height: none;  /* Убираем ограничение по высоте */
+            margin: 0;
+            position: absolute;
+            top: 0;
+            left: 0;
             z-index: 9999;
         }
 
