@@ -5,37 +5,40 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title></title>
     <style>
-        body {
+        
+        body, html {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden; 
             font-family: 'Arial', sans-serif;
-            background-color: #f0f8ff; /* Светло-голубой фон */
+            background-color: #f0f8ff;
+        }
+
+       
+        #quiz-container {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
-
-        .container {
-            background-color: white;
-            padding: 40px;
-            border-radius: 20px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.1);
-            max-width: 90%;
+            width: 100vw;
+            transition: opacity 0.5s ease; 
         }
 
         h1 {
-            font-size: 48px;
+            font-size: 60px;
             color: #333;
             margin-bottom: 20px;
         }
 
         input {
-            font-size: 24px;
+            font-size: 30px;
             padding: 10px;
-            width: 100px;
+            width: 120px;
             text-align: center;
-            border: 2px solid #ccc;
+            border: 3px solid #ccc;
             border-radius: 10px;
             outline: none;
         }
@@ -45,9 +48,9 @@
         }
 
         button {
-            font-size: 24px;
-            padding: 10px 20px;
-            margin-left: 10px;
+            font-size: 30px;
+            padding: 10px 25px;
+            margin-top: 20px;
             background-color: #7b68ee;
             color: white;
             border: none;
@@ -62,65 +65,70 @@
 
         #error-message {
             color: red;
-            font-size: 18px;
-            margin-top: 15px;
-            height: 20px;
+            font-size: 22px;
+            margin-top: 20px;
+            height: 25px;
+            font-weight: bold;
         }
 
-        /* Стили для картинки */
+       
         #surprise-image {
-            display: none; /* Изначально скрыта */
-            max-width: 100%;
-            height: auto;
-            margin-top: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: none; 
+            position: fixed; 
+            top: 0;
+            left: 0;
+            width: 100vw;  
+            height: 100vh; 
+            object-fit: cover;
+            z-index: 9999; 
         }
 
-        /* Анимация появления */
-        @keyframes popIn {
-            0% { transform: scale(0); opacity: 0; }
-            100% { transform: scale(1); opacity: 1; }
+      
+        .hidden {
+            opacity: 0;
+            pointer-events: none; 
         }
     </style>
 </head>
 <body>
 
-    <div class="container">
+ 
+    <div id="quiz-container">
         <h1>1 + 1 = ?</h1>
         
-        <div>
-            <input type="number" id="answerInput" placeholder="?">
-            <button onclick="checkAnswer()">Ответить</button>
-        </div>
+        <input type="number" id="answerInput" placeholder="?">
+        <button onclick="checkAnswer()">Ответить</button>
 
         <div id="error-message"></div>
-
-        <!-- ЗДЕСЬ ВАША КАРТИНКА. Замените image.jpg на название вашего файла -->
-        <img id="surprise-image" src="kartinka.png" alt="Моя картинка">
     </div>
+
+
+    <img id="surprise-image" src="kartinka.png" alt="Сюрприз">
 
     <script>
         function checkAnswer() {
-            // Получаем то, что ввел пользователь
             const userAnswer = document.getElementById('answerInput').value;
+            const quizContainer = document.getElementById('quiz-container');
             const image = document.getElementById('surprise-image');
             const errorMsg = document.getElementById('error-message');
 
-            // Проверяем, равно ли это 2
+            // Проверяем правильный ли ответ
             if (userAnswer == 2) {
-                // Если да - показываем картинку и убираем ошибку
-                image.style.display = 'block';
-                errorMsg.textContent = '';
+                // 1. Скрываем блок с примером (плавно)
+                quizContainer.classList.add('hidden');
+                
+                // 2. Ждем полсекунды (пока пример исчезает), затем показываем картинку
+                setTimeout(() => {
+                    image.style.display = 'block';
+                }, 400); 
+                
             } else {
-                // Если нет - пишем ошибку и прячем картинку
+                // Если ответ неверный
                 errorMsg.textContent = 'Неправильно! Попробуй еще раз.';
-                image.style.display = 'none';
             }
         }
 
-        // Бонус: проверка по нажатию клавиши Enter
+        // Проверка по нажатию клавиши Enter
         document.getElementById('answerInput').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 checkAnswer();
