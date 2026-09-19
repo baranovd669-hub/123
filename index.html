@@ -2,21 +2,20 @@
 <html lang="ru">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title></title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Математика и Сюрприз</title>
     <style>
-        
         body, html {
             margin: 0;
             padding: 0;
             width: 100%;
             height: 100%;
-            overflow: hidden; 
+            overflow: hidden;
             font-family: 'Arial', sans-serif;
             background-color: #f0f8ff;
         }
 
-       
+        /* Контейнер с примером */
         #quiz-container {
             display: flex;
             flex-direction: column;
@@ -24,19 +23,22 @@
             align-items: center;
             height: 100vh;
             width: 100vw;
-            transition: opacity 0.5s ease; 
+            transition: opacity 0.5s ease;
+            padding: 20px;
+            box-sizing: border-box;
         }
 
         h1 {
-            font-size: 60px;
+            font-size: 50px;
             color: #333;
             margin-bottom: 20px;
+            text-align: center;
         }
 
         input {
-            font-size: 30px;
+            font-size: 28px;
             padding: 10px;
-            width: 120px;
+            width: 100px;
             text-align: center;
             border: 3px solid #ccc;
             border-radius: 10px;
@@ -48,7 +50,7 @@
         }
 
         button {
-            font-size: 30px;
+            font-size: 28px;
             padding: 10px 25px;
             margin-top: 20px;
             background-color: #7b68ee;
@@ -65,34 +67,36 @@
 
         #error-message {
             color: red;
-            font-size: 22px;
+            font-size: 20px;
             margin-top: 20px;
             height: 25px;
             font-weight: bold;
+            text-align: center;
         }
 
-       
+        /* --- ИСПРАВЛЕННЫЕ СТИЛИ ДЛЯ КАРТИНКИ --- */
         #surprise-image {
-            display: none; 
-            position: fixed; 
-            top: 0;
-            left: 0;
-            width: 100vw;  
-            height: 100vh; 
-            object-fit: cover;
-            z-index: 9999; 
+            display: none;
+            position: fixed;
+            top: 50%;             /* Центрируем по вертикали */
+            left: 50%;            /* Центрируем по горизонтали */
+            transform: translate(-50%, -50%); /* Точное центрирование */
+            max-width: 100vw;     /* Картинка не шире экрана */
+            max-height: 100vh;    /* Картинка не выше экрана */
+            width: auto;          /* Сохраняем пропорции */
+            height: auto;         /* Сохраняем пропорции */
+            object-fit: contain;  /* Вписываем картинку целиком */
+            z-index: 9999;
         }
 
-      
         .hidden {
             opacity: 0;
-            pointer-events: none; 
+            pointer-events: none;
         }
     </style>
 </head>
 <body>
 
- 
     <div id="quiz-container">
         <h1>1 + 1 = ?</h1>
         
@@ -102,7 +106,7 @@
         <div id="error-message"></div>
     </div>
 
-
+    <!-- ВАША КАРТИНКА -->
     <img id="surprise-image" src="kartinka.png" alt="Сюрприз">
 
     <script>
@@ -112,23 +116,18 @@
             const image = document.getElementById('surprise-image');
             const errorMsg = document.getElementById('error-message');
 
-            // Проверяем правильный ли ответ
             if (userAnswer == 2) {
-                // 1. Скрываем блок с примером (плавно)
                 quizContainer.classList.add('hidden');
                 
-                // 2. Ждем полсекунды (пока пример исчезает), затем показываем картинку
                 setTimeout(() => {
                     image.style.display = 'block';
                 }, 400); 
                 
             } else {
-                // Если ответ неверный
                 errorMsg.textContent = 'Неправильно! Попробуй еще раз.';
             }
         }
 
-        // Проверка по нажатию клавиши Enter
         document.getElementById('answerInput').addEventListener('keypress', function (e) {
             if (e.key === 'Enter') {
                 checkAnswer();
